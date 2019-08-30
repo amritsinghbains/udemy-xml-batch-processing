@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cc9f7053-f3e6-4341-8398-8a882170c083" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="64937f5c-b893-42b3-aa3a-c741c16f966d" >
+		<file:connection workingDir="/Users/abains/Documents/husky/udemy-xml-batch-processing/src/main/resources" />
+	</file:config>
+	<flow name="udemy-xml-batch-processingFlow" doc:id="cf5be1c1-2501-4989-b6f8-2b366b2775c7" >
+		<http:listener doc:name="Listener" doc:id="954cb87d-7fc4-4844-958d-c677fadaf42a" config-ref="HTTP_Listener_config" path="/"/>
+		<file:read doc:name="Read" doc:id="cfeca823-fa49-4255-9942-5dcd8eb6abcf" config-ref="File_Config" path="/Users/abains/Documents/husky/udemy-xml-batch-processing/src/main/resources/example.xml"/>
+		<set-payload value="#[%dw 2.0
+output application/json
+---
+payload]" doc:name="Set Payload" doc:id="e2cbdd0f-d5b2-4e80-8f12-6eed58954de2" />
+	</flow>
+</mule>
